@@ -2,10 +2,12 @@ let v;
 let r = 500;
 let slider;
 function setup() {
-	let cnv = createCanvas(windowWidth, windowHeight-20);
+	let cnv = createCanvas(windowWidth, windowHeight-windowHeight*(4/100));
 	cnv.style('display', 'block');
+	cnv.style('align', 'center');
 	background(0);
 	noStroke();
+	// createP('');
 	slider = createSlider(0, 270,190, 1);
 
 	colorMode(HSB, 360,100,100)
