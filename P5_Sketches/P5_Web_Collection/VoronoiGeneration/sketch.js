@@ -1,10 +1,13 @@
 let v;
 let r = 500;
+let slider;
 function setup() {
-	let cnv = createCanvas(windowWidth, windowHeight);
+	let cnv = createCanvas(windowWidth, windowHeight-20);
 	cnv.style('display', 'block');
 	background(0);
 	noStroke();
+	slider = createSlider(0, 270,190, 1);
+
 	colorMode(HSB, 360,100,100)
 	v = new voronoi(150);
 }
@@ -14,10 +17,7 @@ function windowResized() {
 
 function draw() {
 	if(r<= 0){
-		// delayTime(1);
-		lastTime = millis()
-		&& (lastTime - startTime) >500
-		startTime = millis();
+		delay(1000);
 		r = 500;
 		v = new voronoi(150);
 		background(0);
@@ -26,6 +26,18 @@ function draw() {
 	r-=1.5;
 
 	// noLoop();
+}
+
+function delay(ms) {
+var cur_d = new Date();
+var cur_ticks = cur_d.getTime();
+var ms_passed = 0;
+while(ms_passed < ms) {
+var d = new Date(); // Possible memory leak?
+var ticks = d.getTime();
+ms_passed = ticks - cur_ticks;
+d = null; // Prevent memory leak?
+}
 }
 class voronoi{
 	constructor(number){
@@ -43,7 +55,7 @@ class voronoi{
 	}
 	show(r){
 		for (var i = 0; i < this.number; i++) {
-			fill(this.hue[i], 80, 90);
+			fill(this.hue[i]+slider.value(), 80, 90);
 			// ellipse(this.x[i], this.y[i], this.r[i], this.r[i]);
 			ellipse(this.x[i], this.y[i], r, r);
 		}
