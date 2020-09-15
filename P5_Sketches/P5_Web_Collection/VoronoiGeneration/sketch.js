@@ -1,4 +1,5 @@
 let v;
+let r = 500;
 function setup() {
 	let cnv = createCanvas(windowWidth, windowHeight);
 	cnv.style('display', 'block');
@@ -6,38 +7,43 @@ function setup() {
 	noStroke();
 	colorMode(HSB, 360,100,100)
 	v = new voronoi(150);
+	startTime = millis();
 }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-	if(frameCount%100 == 0)
+	if(r<= 0 && (millis() - startTime) >1000){
+		// delayTime(1);
+		startTime = millis();
+		r = 500;
 		v = new voronoi(150);
 		background(0);
-		v.show();
+	}
+	v.show(r);
+	r-=1.5;
 	// noLoop();
-	// fill(0,100,0, 50);
-	// rect(0,0,width, height);
 }
 class voronoi{
 	constructor(number){
 		this.number = number;
 		this.hue = [];
-		this.r = []
+		// this.r = [];
 		this.x = [];
 		this.y = [];
 		for (var i = 0; i < this.number; i++) {
 			this.hue.push(random(0,50))
-			this.r.push(random(50, 200))
+			// this.r.push(random(50, 200))
 			this.x.push(random(width))
 			this.y.push(random(height))
 		}
 	}
-	show(){
+	show(r){
 		for (var i = 0; i < this.number; i++) {
 			fill(this.hue[i], 80, 90);
-			ellipse(this.x[i], this.y[i], this.r[i], this.r[i]);
+			// ellipse(this.x[i], this.y[i], this.r[i], this.r[i]);
+			ellipse(this.x[i], this.y[i], r, r);
 		}
 	}
 }
