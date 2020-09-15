@@ -7,15 +7,16 @@ function setup() {
 	noStroke();
 	colorMode(HSB, 360,100,100)
 	v = new voronoi(150);
-	startTime = millis();
 }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-	if(r<= 0 && (millis() - startTime) >1000){
+	if(r<= 0){
 		// delayTime(1);
+		lastTime = millis()
+		&& (lastTime - startTime) >500
 		startTime = millis();
 		r = 500;
 		v = new voronoi(150);
@@ -23,6 +24,7 @@ function draw() {
 	}
 	v.show(r);
 	r-=1.5;
+
 	// noLoop();
 }
 class voronoi{
