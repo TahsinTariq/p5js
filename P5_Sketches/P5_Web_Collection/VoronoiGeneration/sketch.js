@@ -1,10 +1,14 @@
 let v;
 function setup() {
-	createCanvas(windowWidth, windowHeight-15);
+	let cnv = createCanvas(windowWidth, windowHeight);
+	cnv.style('display', 'block');
 	background(0);
 	noStroke();
 	colorMode(HSB, 360,100,100)
 	v = new voronoi(150);
+}
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
