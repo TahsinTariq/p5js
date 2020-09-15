@@ -33,7 +33,6 @@ class voronoi{
 			this.x.push(random(width))
 			this.y.push(random(height))
 		}
-		console.log(this.x[0])
 	}
 	show(){
 		for (var i = 0; i < this.number; i++) {
