@@ -7,7 +7,6 @@ function setup() {
 	cnv.style('align', 'center');
 	background(0);
 	noStroke();
-	// createP('');
 	slider = createSlider(0, 270,190, 1);
 
 	colorMode(HSB, 360,100,100)
@@ -58,7 +57,6 @@ class voronoi{
 	show(r){
 		for (var i = 0; i < this.number; i++) {
 			fill(this.hue[i]+slider.value(), 80, 90);
-			// ellipse(this.x[i], this.y[i], this.r[i], this.r[i]);
 			ellipse(this.x[i], this.y[i], r, r);
 		}
 	}
