@@ -10,10 +10,10 @@ let goal = [
     ["7", "8", "0"]
 ];
 actions = {
-	up :   [ 0,-1],
+	up   : [ 0,-1],
 	down : [ 0, 1],
 	left : [-1, 0],
-	right :[ 1, 0]
+	right: [ 1, 0]
 };
 function setup() {
 	createCanvas(windowWidth, windowHeight);
@@ -53,30 +53,30 @@ function draw() {
 
 function keyPressed(){
 
-			if(keyCode === UP_ARROW || key =='w'){
-				swap(actions.up);
-			}
-			if(keyCode === DOWN_ARROW || key =='s'){
-				swap(actions.down);
-			}
-			if(keyCode === LEFT_ARROW || key =='a'){
-				swap(actions.left);
-			}
-			if(keyCode === RIGHT_ARROW || key =='d'){
-				swap(actions.right);
-			}
-		}
+	if(keyCode === UP_ARROW || key =='w'){
+		swap(actions.up);
+	}
+	if(keyCode === DOWN_ARROW || key =='s'){
+		swap(actions.down);
+	}
+	if(keyCode === LEFT_ARROW || key =='a'){
+		swap(actions.left);
+	}
+	if(keyCode === RIGHT_ARROW || key =='d'){
+		swap(actions.right);
+	}
+}
 
 function swap(action){
 	for (j in board){
 		for (i in board[i]){
 			if (board[i][j] == 0){
 				[x, y] = math.add([j, i], action);
-					if((-1 < x && x < board.length)&&(-1 < y && y < board.length)){
-						board[i][j] = board[y][x];
-						board[y][x] = 0;
-						return 0;
-					}
+				if((-1 < x && x < board.length)&&(-1 < y && y < board.length)){
+					board[i][j] = board[y][x];
+					board[y][x] = 0;
+					return 0;
+				}
 			}
 		}
 	}
