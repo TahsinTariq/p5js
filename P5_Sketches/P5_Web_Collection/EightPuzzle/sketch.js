@@ -132,20 +132,11 @@ function AStar(v1, v2){
     gcost[v1] = 0
     fcost[v1] = h(v1)
     queue[v1] = fcost[v1]
-    def lowestCost(d1):
-        hash_ = generatechild(d1);
-        for n, c in hash_.items():
-            if c + gcost[d1] < gcost[n] and n not in searched:
-                gcost[n] = c + gcost[d1]
-                fcost[n] = gcost[n] + h(n)
-                parents[n] = d1
-                if n not in queue.keys():
-                    queue[n] = fcost[n]
     while queue:
-        x = sorted(queue, key=queue.get, reverse=True)
-        node= x.pop()
-        queue.pop(node)
-        searched.append(node)
+        x = sortDict(queue);
+        node = Object.keys(x)[0];
+        delete ans[node];
+        searched.append(node);
         if node == v2:
             try{
                 print("found");
@@ -155,7 +146,36 @@ function AStar(v1, v2){
                 print('No path exists');
             }
             return None
-        lowestCost(node)
+        hash_ = generatechild(node);
+        for n, c in hash_.items():
+            if c + gcost[node] < gcost[n] and n not in searched:
+                gcost[n] = c + gcost[node]
+                fcost[n] = gcost[n] + h(n)
+                parents[n] = node
+                if n not in queue.keys():
+                    queue[n] = fcost[n]
     print('NO path Found')
 }
 
+function sortDict(dictionary){
+	var items = Object.keys(dictionary).map(function(key) {
+	  return [key, dictionary[key]];
+	});
+
+	items.sort(function(first, second) {
+	  return second[1] - first[1];
+	});
+
+	return Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})))
+}
+
+def h(v1):
+    g2 = stringtoboard(goal)
+    Board = stringtoboard(v1)
+    sum =0;
+    for (i in board)
+        for (j in board)
+            for (k in board)
+                for (l in board)
+                    if Board[i][j] == g2[k][l]:
+                        sum += abs(i-k) +abs(j-l)
