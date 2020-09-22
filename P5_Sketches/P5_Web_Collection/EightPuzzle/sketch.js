@@ -67,10 +67,14 @@ function keyPressed(){
 	}
 	if(key == 'r'){
 		b = boardtostring(board)
-        if parity(b)%2 == parity(goal)%2:
+		goal = boardtostring(goal)
+        if (parity(b)%2 == parity(goal)%2){
             console.log('SEARCHING ... ... ... ...')
             AStar(b, goal)
-        else: console.log("UNSOLVABLE")
+        }
+        else{
+        	console.log("UNSOLVABLE")
+        }
 	}
 }
 
@@ -84,13 +88,15 @@ function swap(action){
 					board[y][x] = 0;
 					return 0;
 				}
+				else{
+					return 1;
+				}
 			}
 		}
 	}
 }
 
 function parity(S){
-	console.log(S);
     S = S.replace("0","");
     count = 0;
     for (let i = 0; i < S.length; i++){
@@ -121,7 +127,7 @@ function boardtostring(Board){
     }
     return string;
 }
-
+let gcost = {}
 function AStar(v1, v2){
 	function route(v1, v2){
 	    if (parents[v2] != 'NONE'){
@@ -142,8 +148,8 @@ function AStar(v1, v2){
     while (queue.length != 0){
         x = sortDict(queue);
         node = Object.keys(x)[0];
-        delete ans[node];
-        searched.append(node);
+        delete queue[node];
+        searched.push(node);
         if (node == v2){
             try{
                 print("found");
@@ -155,14 +161,16 @@ function AStar(v1, v2){
             return None
         }
         hash_ = generatechild(node);
-        for (n, c in hash_.items()){
-            if c + gcost[node] < gcost[n] and n not in searched:
-                gcost[n] = c + gcost[node]
-                fcost[n] = gcost[n] + h(n)
-                parents[n] = node
-                if (n not in queue.keys()){
-                    queue[n] = fcost[n]
+        for(let[n, c] of Object.entries(hash_)){
+			// console.log(action, val);
+            if (c + gcost[node] < gcost[n] && !searched.hasOwnProperty(n)){
+                gcost[n] = c + gcost[node];
+                fcost[n] = gcost[n] + h(n);
+                parents[n] = node;
+                if (!queue.hasOwnProperty(n)){
+                    queue[n] = fcost[n];
                 }
+            }
         }
     }
     print('NO path Found')
@@ -195,4 +203,33 @@ function h(v1){
             }
         }
     }
+}
+
+function generatechild(node){
+    no = stringtoboard(node)
+    child = {}
+    i = 1
+    for(let[action, val] of Object.entries(actions)){
+		v = swap(val)
+		name = boardtostring(no)
+        child[name] = h(name)
+        gcost[name] = 999999
+        if (v !=1){
+			swap(math.multiply(val, -1))
+		}
+	}
+    return child
+}
+function stringtoboard(v1){
+    Board = [];
+    for (let i = 0; i < board.length; i++){
+        Board.push([]);
+        for (let j = 0; j < board[i].length; j++){
+            Board[i].push([]);
+
+            Board[i][j] = v1[board.length*i + j];
+            console.log(Board[i]);
+        }
+    }
+    return Board
 }
