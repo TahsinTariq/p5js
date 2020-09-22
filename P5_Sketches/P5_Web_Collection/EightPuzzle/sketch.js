@@ -1,15 +1,16 @@
 let r;
+let path = [];
 let board = [
 	["0", "5", "4"],
     ["1", "6", "2"],
     ["7", "3", "8"]
-]
+];
 let goal = [
 	["1", "2", "3"],
     ["4", "5", "6"],
     ["7", "8", "0"]
 ];
-actions = {
+let actions = {
 	up   : [ 0,-1],
 	down : [ 0, 1],
 	left : [-1, 0],
@@ -65,6 +66,16 @@ function keyPressed(){
 	if(keyCode === RIGHT_ARROW || key =='d'){
 		swap(actions.right);
 	}
+	if(key == 'r'){
+		b = boardtostring(board)
+        if (parity(b)%2 == parity(goal)%2){
+            console.log('SEARCHING ... ... ... ...');
+            AStar(b, goal)
+        }
+        else{
+        	console.log("UNSOLVABLE");
+        }
+	}
 }
 
 function swap(action){
@@ -80,4 +91,112 @@ function swap(action){
 			}
 		}
 	}
+}
+
+function parity(S){
+	console.log(S);
+    S = S.replace("0","");
+    count = 0;
+    for (let i = 0; i < S.length; i++){
+		for (let j = i+1; j<S.length; j++){
+            if (S[i]>S[j]){
+                count +=1;
+            }
+		}
+    }
+    return count;
+}
+
+class node{
+	constructor(current, parent, gcost){
+		this.parent = parent;
+		this.gcost = gcost;
+		this.h = getHeuristic(current);
+		this.child = generatechild(current);
+	}
+}
+
+function boardtostring(Board){
+    let string = "";
+    for (i in Board){
+        for (j in Board[i]){
+            string+=Board[i][j];
+        }
+    }
+    return string;
+}
+
+function AStar(v1, v2){
+	function route(v1, v2){
+	    if (parents[v2] != 'NONE'){
+	        route(v1, parents[v2])
+	    }
+	    print(v2)
+		path.push(v2)
+	}
+    parents = {}
+    searched = []
+    fcost = {}
+    queue = {}
+
+    parents[v1] = "NONE"
+    gcost[v1] = 0
+    fcost[v1] = h(v1)
+    queue[v1] = fcost[v1]
+    while (queue.length != 0){
+        x = sortDict(queue);
+        node = Object.keys(x)[0];
+        delete ans[node];
+        searched.append(node);
+        if (node == v2){
+            try{
+                print("found");
+                rout(v1, v2);
+        	}
+            catch{
+                print('No path exists');
+            }
+            return None
+        }
+        hash_ = generatechild(node);
+        for (n, c in hash_.items()){
+            if c + gcost[node] < gcost[n] and n not in searched:
+                gcost[n] = c + gcost[node]
+                fcost[n] = gcost[n] + h(n)
+                parents[n] = node
+                if (n not in queue.keys()){
+                    queue[n] = fcost[n]
+                }
+        }
+    }
+    print('NO path Found')
+}
+
+function sortDict(dictionary){
+	var items = Object.keys(dictionary).map(function(key) {
+	  return [key, dictionary[key]];
+	});
+
+	items.sort(function(first, second) {
+	  return second[1] - first[1];
+	});
+
+	return Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})))
+}
+
+function h(v1){
+    g2 = stringtoboard(goal)
+    Board = stringtoboard(v1)
+    sum =0;
+    for (i in Board){
+        for (j in Board[i]){
+            for (k in g2){
+                for (l in g2[i]){
+                    if (Board[i][j] == g2[k][l]){
+                        sum += abs(i-k) +abs(j-l)
+                    }
+                }
+            }
+        }
+    }
 }
