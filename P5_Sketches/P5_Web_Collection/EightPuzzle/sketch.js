@@ -53,7 +53,6 @@ function draw() {
 }
 
 function keyPressed(){
-
 	if(keyCode === UP_ARROW || key =='w'){
 		swap(actions.up);
 	}
@@ -68,13 +67,10 @@ function keyPressed(){
 	}
 	if(key == 'r'){
 		b = boardtostring(board)
-        if (parity(b)%2 == parity(goal)%2){
-            console.log('SEARCHING ... ... ... ...');
+        if parity(b)%2 == parity(goal)%2:
+            console.log('SEARCHING ... ... ... ...')
             AStar(b, goal)
-        }
-        else{
-        	console.log("UNSOLVABLE");
-        }
+        else: console.log("UNSOLVABLE")
 	}
 }
 
