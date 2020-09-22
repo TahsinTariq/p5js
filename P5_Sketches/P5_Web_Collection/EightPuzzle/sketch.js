@@ -4,7 +4,7 @@ let board = [
 	["0", "5", "4"],
     ["1", "6", "2"],
     ["7", "3", "8"]
-]
+];
 let goal = [
 	["1", "2", "3"],
     ["4", "5", "6"],
@@ -89,14 +89,19 @@ function swap(action){
 	}
 }
 
-function parity(S):
-    S = S.replace("0","")
-    count = 0
-    for (i in board){
-		for (j = i; j<board.length; j++)
-            if (S[i]>S[j])
-                count +=1
-    return count
+function parity(S){
+	console.log(S);
+    S = S.replace("0","");
+    count = 0;
+    for (let i = 0; i < S.length; i++){
+		for (let j = i+1; j<S.length; j++){
+            if (S[i]>S[j]){
+                count +=1;
+            }
+		}
+    }
+    return count;
+}
 
 class node{
 	constructor(current, parent, gcost){
@@ -107,21 +112,24 @@ class node{
 	}
 }
 
-function route(v1, v2):
-    if parents[v2] != 'NONE':
-        route(v1, parents[v2])
-    print(v2)
-	path.push(v2)
-
-def boardtostring(Board):
-    string = ""
+function boardtostring(Board){
+    let string = "";
     for (i in Board){
-        for j in i:
-            string+=j
+        for (j in Board[i]){
+            string+=Board[i][j];
+        }
     }
-    return string
+    return string;
+}
 
 function AStar(v1, v2){
+	function route(v1, v2){
+	    if (parents[v2] != 'NONE'){
+	        route(v1, parents[v2])
+	    }
+	    print(v2)
+		path.push(v2)
+	}
     parents = {}
     searched = []
     fcost = {}
@@ -131,12 +139,12 @@ function AStar(v1, v2){
     gcost[v1] = 0
     fcost[v1] = h(v1)
     queue[v1] = fcost[v1]
-    while queue:
+    while (queue.length != 0){
         x = sortDict(queue);
         node = Object.keys(x)[0];
         delete ans[node];
         searched.append(node);
-        if node == v2:
+        if (node == v2){
             try{
                 print("found");
                 rout(v1, v2);
@@ -145,14 +153,18 @@ function AStar(v1, v2){
                 print('No path exists');
             }
             return None
+        }
         hash_ = generatechild(node);
-        for n, c in hash_.items():
+        for (n, c in hash_.items()){
             if c + gcost[node] < gcost[n] and n not in searched:
                 gcost[n] = c + gcost[node]
                 fcost[n] = gcost[n] + h(n)
                 parents[n] = node
-                if n not in queue.keys():
+                if (n not in queue.keys()){
                     queue[n] = fcost[n]
+                }
+        }
+    }
     print('NO path Found')
 }
 
@@ -168,13 +180,19 @@ function sortDict(dictionary){
 	return Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})))
 }
 
-def h(v1):
+function h(v1){
     g2 = stringtoboard(goal)
     Board = stringtoboard(v1)
     sum =0;
-    for (i in board)
-        for (j in board)
-            for (k in board)
-                for (l in board)
-                    if Board[i][j] == g2[k][l]:
+    for (i in Board){
+        for (j in Board[i]){
+            for (k in g2){
+                for (l in g2[i]){
+                    if (Board[i][j] == g2[k][l]){
                         sum += abs(i-k) +abs(j-l)
+                    }
+                }
+            }
+        }
+    }
+}
