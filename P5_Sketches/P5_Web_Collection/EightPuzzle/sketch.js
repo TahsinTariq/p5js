@@ -1,9 +1,14 @@
 let r;
 let path = [];
+// let board = [
+// 	["0", "5", "4"],
+//     ["1", "6", "2"],
+//     ["7", "3", "8"]
+// ];
 let board = [
-	["0", "5", "4"],
-    ["1", "6", "2"],
-    ["7", "3", "8"]
+	["1", "2", "3"],
+    ["4", "5", "6"],
+    ["0", "7", "8"]
 ];
 let goal = [
 	["1", "2", "3"],
@@ -145,22 +150,27 @@ function AStar(v1, v2){
     gcost[v1] = 0
     fcost[v1] = h(v1)
     queue[v1] = fcost[v1]
+
     while (queue.length != 0){
+    	console.log("queue   : ", queue);
         x = sortDict(queue);
-        node = Object.keys(x)[0];
+        console.log("Sorted :", x);
+        node = Object.keys(x)[Object.keys(x).length-1];
+        console.log("Popped node:",node);
         delete queue[node];
         searched.push(node);
         if (node == v2){
             try{
                 print("found");
-                rout(v1, v2);
+                route(v1, v2);
         	}
             catch{
                 print('No path exists');
             }
-            return None
+            return 0;
         }
         hash_ = generatechild(node);
+        console.log("Hash :", hash_);
         for(let[n, c] of Object.entries(hash_)){
 			// console.log(action, val);
             if (c + gcost[node] < gcost[n] && !searched.hasOwnProperty(n)){
@@ -170,7 +180,9 @@ function AStar(v1, v2){
                 if (!queue.hasOwnProperty(n)){
                     queue[n] = fcost[n];
                 }
+                // console.log(queue);
             }
+
         }
     }
     print('NO path Found')
@@ -185,7 +197,8 @@ function sortDict(dictionary){
 	  return second[1] - first[1];
 	});
 
-	return Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})))
+	Sorted_dict =  Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})));
+	return Sorted_dict;
 }
 
 function h(v1){
@@ -203,23 +216,27 @@ function h(v1){
             }
         }
     }
+    return sum;
 }
 
 function generatechild(node){
     no = stringtoboard(node)
+    // console.log(no);
     child = {}
     i = 1
     for(let[action, val] of Object.entries(actions)){
 		v = swap(val)
-		name = boardtostring(no)
-        child[name] = h(name)
-        gcost[name] = 999999
-        if (v !=1){
+		if (v !=1){
+			name = boardtostring(board)
+			// console.log(name);
+	        child[name] = h(name)
+	        gcost[name] = 999999
 			swap(math.multiply(val, -1))
 		}
 	}
     return child
 }
+
 function stringtoboard(v1){
     Board = [];
     for (let i = 0; i < board.length; i++){
@@ -228,8 +245,9 @@ function stringtoboard(v1){
             Board[i].push([]);
 
             Board[i][j] = v1[board.length*i + j];
-            console.log(Board[i]);
+            // console.log(Board[i]);
         }
     }
-    return Board
+    // console.log(Board);
+    return Board;
 }
