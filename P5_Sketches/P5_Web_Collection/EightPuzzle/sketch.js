@@ -6,11 +6,11 @@ let path = [];
 //     ["7", "3", "8"]
 // ];
 let board = [
-	["1", "2", "3"],
-    ["4", "5", "6"],
-    ["0", "7", "8"]
+	["1", "0", "2"],
+    ["4", "5", "3"],
+    ["7", "8", "6"]
 ];
-let goal = [
+let Goal = [
 	["1", "2", "3"],
     ["4", "5", "6"],
     ["7", "8", "0"]
@@ -72,7 +72,7 @@ function keyPressed(){
 	}
 	if(key == 'r'){
 		b = boardtostring(board)
-		goal = boardtostring(goal)
+		goal = boardtostring(Goal)
         if (parity(b)%2 == parity(goal)%2){
             console.log('SEARCHING ... ... ... ...')
             AStar(b, goal)
@@ -80,6 +80,13 @@ function keyPressed(){
         else{
         	console.log("UNSOLVABLE")
         }
+	}
+
+	if(key == 'f'){
+		if (path.length > 0){
+			board = stringtoboard(path[0]);
+			path.splice(path.indexOf(path[0]),1);
+		}
 	}
 }
 
@@ -152,11 +159,14 @@ function AStar(v1, v2){
     queue[v1] = fcost[v1]
 
     while (queue.length != 0){
-    	console.log("queue   : ", queue);
-        x = sortDict(queue);
-        console.log("Sorted :", x);
-        node = Object.keys(x)[Object.keys(x).length-1];
-        console.log("Popped node:",node);
+    	// console.log("queue   : ", queue);
+        // x = sortDict(queue);
+        x = sortProperties(queue);
+        // console.log("Sorted :", x);
+        // node = Object.keys(x)[Object.keys(x).length-1];
+        // node = Object.keys(x)[0];
+        node = x[0][0];
+        // console.log("Popped node:",node);
         delete queue[node];
         searched.push(node);
         if (node == v2){
@@ -170,17 +180,24 @@ function AStar(v1, v2){
             return 0;
         }
         hash_ = generatechild(node);
-        console.log("Hash :", hash_);
+        // console.log("Hash :", hash_);
         for(let[n, c] of Object.entries(hash_)){
-			// console.log(action, val);
-            if (c + gcost[node] < gcost[n] && !searched.hasOwnProperty(n)){
+			// console.log(n, c);
+			// console.log(gcost[node], gcost[n]);
+            if (c + gcost[node] < gcost[n]){
+            	if (searched.includes(n)){
+            		continue;
+            	}
+            	else{
+            	// console.log("updating costs and parents");
                 gcost[n] = c + gcost[node];
-                fcost[n] = gcost[n] + h(n);
+                fcost[n] = (gcost[n] + h(n));
                 parents[n] = node;
+                // console.log(gcost, fcost, parents);
                 if (!queue.hasOwnProperty(n)){
+                	// console.log("adding to queue");
                     queue[n] = fcost[n];
-                }
-                // console.log(queue);
+                }}
             }
 
         }
@@ -188,22 +205,38 @@ function AStar(v1, v2){
     print('NO path Found')
 }
 
-function sortDict(dictionary){
-	var items = Object.keys(dictionary).map(function(key) {
-	  return [key, dictionary[key]];
-	});
+function sortProperties(obj){
+  // convert object into array
+	var sortable=[];
+	for(var key in obj)
+		if(obj.hasOwnProperty(key))
+			sortable.push([key, obj[key]]); // each item is an array in format [key, value]
 
-	items.sort(function(first, second) {
-	  return second[1] - first[1];
+	// sort items by value
+	sortable.sort(function(a, b)
+	{
+	  return a[1]-b[1]; // compare numbers
 	});
-
-	Sorted_dict =  Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})));
-	return Sorted_dict;
+  // console.log(sortable);
+	return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
 }
 
+// function sortDict(dictionary){
+// 	var items = Object.keys(dictionary).map(function(key) {
+// 	  return [key, dictionary[key]];
+// 	});
+
+// 	items.sort(function(first, second) {
+// 	  return second[1] - first[1];
+// 	});
+
+// 	Sorted_dict =  Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})));
+// 	return Sorted_dict;
+// }
+
 function h(v1){
-    g2 = stringtoboard(goal)
-    Board = stringtoboard(v1)
+    g2 = Goal;
+    Board = stringtoboard(v1);
     sum =0;
     for (i in Board){
         for (j in Board[i]){
@@ -219,19 +252,38 @@ function h(v1){
     return sum;
 }
 
-function generatechild(node){
-    no = stringtoboard(node)
+
+
+function generatechild(node_){
+    no = stringtoboard(node_)
+    function swap_(action){
+		for (j in no){
+			for (i in no[i]){
+				if (no[i][j] == 0){
+					[x, y] = math.add([j, i], action);
+					if((-1 < x && x < no.length)&&(-1 < y && y < no.length)){
+						no[i][j] = no[y][x];
+						no[y][x] = 0;
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				}
+			}
+		}
+	}
     // console.log(no);
     child = {}
     i = 1
     for(let[action, val] of Object.entries(actions)){
-		v = swap(val)
+		v = swap_(val)
 		if (v !=1){
-			name = boardtostring(board)
+			name = boardtostring(no)
 			// console.log(name);
 	        child[name] = h(name)
 	        gcost[name] = 999999
-			swap(math.multiply(val, -1))
+			swap_(math.multiply(val, -1))
 		}
 	}
     return child
