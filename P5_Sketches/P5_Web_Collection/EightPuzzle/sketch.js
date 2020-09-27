@@ -24,7 +24,7 @@ function setup() {
 	rectMode(CENTER);
 	textSize(r);
 	strokeWeight(5);
-	textPrompt = createP("Press solve to use the A* algorithm");
+	textPrompt = createP("Press the button if you're stuck and let the AI solve it for you");
 	textPrompt.position(size + windowWidth* 5/100, 100);
 	textPrompt.style('color', color(255));
 	textPrompt.style('font-size', r/5 + 'px')
@@ -101,7 +101,7 @@ function find_solve(){
 	b = boardtostring(board)
 	goal = boardtostring(Goal)
     if (parity(b)%2 == parity(goal)%2){
-        textPrompt.html('Searching ... ...');
+        textPrompt.html('AI thinking ... ...');
         AStar(b, goal)
     }
     else{
