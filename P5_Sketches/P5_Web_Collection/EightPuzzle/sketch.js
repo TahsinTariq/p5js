@@ -5,11 +5,6 @@ let board = [
     ["1", "6", "2"],
     ["7", "3", "8"]
 ];
-// let board = [
-// 	["1", "0", "2"],
-//     ["4", "5", "3"],
-//     ["7", "8", "6"]
-// ];
 let Goal = [
 	["1", "2", "3"],
     ["4", "5", "6"],
@@ -25,29 +20,39 @@ function setup() {
 	size = min(windowWidth, windowHeight);
 	r = size/3;
 	createCanvas(size, size);
-	// background(0);
-	// r = 100;
 	textAlign(CENTER, CENTER);
 	rectMode(CENTER);
 	textSize(r);
 	strokeWeight(5);
+	textPrompt = createP("Press solve to use the A* algorithm");
+	textPrompt.position(size + windowWidth* 5/100, 100);
+	textPrompt.style('color', color(255));
+	textPrompt.style('font-size', r/5 + 'px')
+	textPrompt.style('border', 'none');
+
+
 	solveButton = createButton('Solve!!!!');
 	solveButton.position(size + windowWidth* 5/100, 0);
-	solveButton.size(windowWidth-size - windowWidth* 5/100, 100);
+	solveButton.size(windowWidth-size - windowWidth* 10/100, 100);
 	solveButton.style('background-color', color(48, 117, 38));
+	solveButton.style('color', color(255));
 	solveButton.style('font-size', r/5 + 'px')
 	solveButton.style('border', 'none');
 	solveButton.style('border-radius', '20%');
-	// solveButton.elt.hover('border-radius', '50%');
-	solveButton.mousePressed(find_solve);
-}
-function animateInterval(){
-	setInterval(animate, 500);
+	solveButton.mousePressed(animateTimeout);
+	// solveButton.mouseClicked(animateInterval);
 }
 
-// function windowResized() {
-//   resizeCanvas(windowWidth, windowHeight);
-// }
+function animateTimeout(){
+	textPrompt.html('Searching ... ...');
+	setTimeout(find_solve, 1000);
+}
+
+function animateInterval(){
+	textPrompt.html('Found Solution');
+	delay(1000);
+	setInterval(animate, 500);
+}
 
 function draw() {
 	fill(47, 71, 138);
@@ -101,23 +106,28 @@ function keyPressed(){
 	// 	}
 	// }
 }
+
 function animate(){
 	if(path.length > 0){
 		board = stringtoboard(path[0]);
 		path.splice(path.indexOf(path[0]),1);
 	}
 }
+
 function find_solve(){
 	b = boardtostring(board)
 	goal = boardtostring(Goal)
     if (parity(b)%2 == parity(goal)%2){
         console.log('SEARCHING ... ... ... ...')
+        textPrompt.html('Searching ... ...');
         AStar(b, goal)
     }
     else{
     	console.log("UNSOLVABLE")
+    	textPrompt.html('UNSOLVABLE');
     }
-    animateInterval();
+    // textPrompt.html('Found Solution');
+    setTimeout(animateInterval, 1000);
 }
 
 function swap(action){
@@ -175,7 +185,7 @@ function AStar(v1, v2){
 	    if (parents[v2] != 'NONE'){
 	        route(v1, parents[v2])
 	    }
-	    print(v2)
+	    // print(v2)
 		path.push(v2)
 	}
     parents = {}
