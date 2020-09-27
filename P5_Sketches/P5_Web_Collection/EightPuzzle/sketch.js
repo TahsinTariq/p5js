@@ -112,6 +112,9 @@ function animate(){
 		board = stringtoboard(path[0]);
 		path.splice(path.indexOf(path[0]),1);
 	}
+	else{
+		textPrompt.html('Play yourself and let the AI solve again');
+	}
 }
 
 function find_solve(){
