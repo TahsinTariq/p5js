@@ -118,15 +118,12 @@ function find_solve(){
 	b = boardtostring(board)
 	goal = boardtostring(Goal)
     if (parity(b)%2 == parity(goal)%2){
-        console.log('SEARCHING ... ... ... ...')
         textPrompt.html('Searching ... ...');
         AStar(b, goal)
     }
     else{
-    	console.log("UNSOLVABLE")
     	textPrompt.html('UNSOLVABLE');
     }
-    // textPrompt.html('Found Solution');
     setTimeout(animateInterval, 1000);
 }
 
