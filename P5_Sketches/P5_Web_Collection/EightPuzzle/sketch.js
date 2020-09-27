@@ -34,7 +34,7 @@ function setup() {
 	solveButton = createButton('Solve!!!!');
 	solveButton.position(size + windowWidth* 5/100, 0);
 	solveButton.size(windowWidth-size - windowWidth* 5/100, 100);
-	solveButton.style('background-color', color(255,128,0));
+	solveButton.style('background-color', color(48, 117, 38));
 	solveButton.style('font-size', r/5 + 'px')
 	solveButton.style('border', 'none');
 	solveButton.style('border-radius', '20%');
@@ -50,7 +50,7 @@ function animateInterval(){
 // }
 
 function draw() {
-	fill(255, 50,60);
+	fill(47, 71, 138);
 	rect(0,0,2*r*board.length, 2*r*board.length);
 	for (j in board){
 		for (i in board[j]){
