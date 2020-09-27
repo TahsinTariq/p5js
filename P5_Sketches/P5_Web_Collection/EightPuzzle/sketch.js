@@ -25,21 +25,24 @@ function setup() {
 	size = min(windowWidth, windowHeight);
 	r = size/3;
 	createCanvas(size, size);
-	background(0);
+	// background(0);
 	// r = 100;
 	textAlign(CENTER, CENTER);
 	rectMode(CENTER);
 	textSize(r);
 	strokeWeight(5);
-	button = createButton('click me');
-	button.position(size, 0);
-	button.size(windowWidth-size, 100);
-	button.style('background-color', color(255,128,0));
-	button.style('font-size', '50px');
-	button.mousePressed(null);
-	// for(let[action, val] of Object.entries(actions)){
-	// 	console.log(action, val);
-	// }
+	solveButton = createButton('Solve!!!!');
+	solveButton.position(size, 0);
+	solveButton.size(windowWidth-size, 100);
+	solveButton.style('background-color', color(255,128,0));
+	solveButton.style('font-size', '50px')
+	solveButton.style('border', 'none');
+	solveButton.style('border-radius', '20%');
+	// solveButton.elt.hover('border-radius', '50%');
+	solveButton.mousePressed(find_solve);
+}
+function animateInterval(){
+	setInterval(animate, 500);
 }
 
 // function windowResized() {
@@ -47,15 +50,18 @@ function setup() {
 // }
 
 function draw() {
-	fill(255);
+	fill(255, 50,60);
 	rect(0,0,2*r*board.length, 2*r*board.length);
 	for (j in board){
 		for (i in board[j]){
 			let xpos = j*r +r/2;
 			let ypos = i*r +r/2;
 			noFill();
+			if(board[i][j] == 0 ){
+				fill(255);
+			}
 			rect(xpos, ypos, r,r);
-			fill(255,0,0);
+			fill(255);
 			if(board[j][i] != 0 ){
 				text(board[j][i], i*r+r/2, j*r+r/2);
 			}
@@ -76,24 +82,42 @@ function keyPressed(){
 	if(keyCode === RIGHT_ARROW || key =='d'){
 		swap(actions.right);
 	}
-	if(key == 'r'){
-		b = boardtostring(board)
-		goal = boardtostring(Goal)
-        if (parity(b)%2 == parity(goal)%2){
-            console.log('SEARCHING ... ... ... ...')
-            AStar(b, goal)
-        }
-        else{
-        	console.log("UNSOLVABLE")
-        }
-	}
+	// if(key == 'r'){
+	// 	b = boardtostring(board)
+	// 	goal = boardtostring(Goal)
+ //        if (parity(b)%2 == parity(goal)%2){
+ //            console.log('SEARCHING ... ... ... ...')
+ //            AStar(b, goal)
+ //        }
+ //        else{
+ //        	console.log("UNSOLVABLE")
+ //        }
+	// }
 
-	if(key == 'f'){
-		if (path.length > 0){
-			board = stringtoboard(path[0]);
-			path.splice(path.indexOf(path[0]),1);
-		}
+	// if(key == 'f'){
+	// 	if (path.length > 0){
+	// 		board = stringtoboard(path[0]);
+	// 		path.splice(path.indexOf(path[0]),1);
+	// 	}
+	// }
+}
+function animate(){
+	if(path.length > 0){
+		board = stringtoboard(path[0]);
+		path.splice(path.indexOf(path[0]),1);
 	}
+}
+function find_solve(){
+	b = boardtostring(board)
+	goal = boardtostring(Goal)
+    if (parity(b)%2 == parity(goal)%2){
+        console.log('SEARCHING ... ... ... ...')
+        AStar(b, goal)
+    }
+    else{
+    	console.log("UNSOLVABLE")
+    }
+    animateInterval();
 }
 
 function swap(action){
