@@ -30,8 +30,7 @@ function setup() {
 	textPrompt.style('font-size', r/5 + 'px')
 	textPrompt.style('border', 'none');
 
-
-	solveButton = createButton('Solve!!!!');
+	solveButton = createButton('Solve');
 	solveButton.position(size + windowWidth* 5/100, 0);
 	solveButton.size(windowWidth-size - windowWidth* 10/100, 100);
 	solveButton.style('background-color', color(48, 117, 38));
@@ -40,11 +39,10 @@ function setup() {
 	solveButton.style('border', 'none');
 	solveButton.style('border-radius', '20%');
 	solveButton.mousePressed(animateTimeout);
-	// solveButton.mouseClicked(animateInterval);
 }
 
 function animateTimeout(){
-	textPrompt.html('Searching ... ...');
+	textPrompt.html('AI thinking ... ...');
 	setTimeout(find_solve, 1000);
 }
 
@@ -87,24 +85,6 @@ function keyPressed(){
 	if(keyCode === RIGHT_ARROW || key =='d'){
 		swap(actions.right);
 	}
-	// if(key == 'r'){
-	// 	b = boardtostring(board)
-	// 	goal = boardtostring(Goal)
- //        if (parity(b)%2 == parity(goal)%2){
- //            console.log('SEARCHING ... ... ... ...')
- //            AStar(b, goal)
- //        }
- //        else{
- //        	console.log("UNSOLVABLE")
- //        }
-	// }
-
-	// if(key == 'f'){
-	// 	if (path.length > 0){
-	// 		board = stringtoboard(path[0]);
-	// 		path.splice(path.indexOf(path[0]),1);
-	// 	}
-	// }
 }
 
 function animate(){
@@ -159,15 +139,6 @@ function parity(S){
 		}
     }
     return count;
-}
-
-class node{
-	constructor(current, parent, gcost){
-		this.parent = parent;
-		this.gcost = gcost;
-		this.h = getHeuristic(current);
-		this.child = generatechild(current);
-	}
 }
 
 function boardtostring(Board){
@@ -261,19 +232,6 @@ function sortProperties(obj){
 	return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
 }
 
-// function sortDict(dictionary){
-// 	var items = Object.keys(dictionary).map(function(key) {
-// 	  return [key, dictionary[key]];
-// 	});
-
-// 	items.sort(function(first, second) {
-// 	  return second[1] - first[1];
-// 	});
-
-// 	Sorted_dict =  Object.assign({}, ...items.map((x) => ({[x[0]]:x[1]})));
-// 	return Sorted_dict;
-// }
-
 function h(v1){
     g2 = Goal;
     Board = stringtoboard(v1);
@@ -291,8 +249,6 @@ function h(v1){
     }
     return sum;
 }
-
-
 
 function generatechild(node_){
     no = stringtoboard(node_)
