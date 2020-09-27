@@ -32,10 +32,10 @@ function setup() {
 	textSize(r);
 	strokeWeight(5);
 	solveButton = createButton('Solve!!!!');
-	solveButton.position(size, 0);
-	solveButton.size(windowWidth-size, 100);
+	solveButton.position(size + windowWidth* 5/100, 0);
+	solveButton.size(windowWidth-size - windowWidth* 5/100, 100);
 	solveButton.style('background-color', color(255,128,0));
-	solveButton.style('font-size', '50px')
+	solveButton.style('font-size', r/5 + 'px')
 	solveButton.style('border', 'none');
 	solveButton.style('border-radius', '20%');
 	// solveButton.elt.hover('border-radius', '50%');
