@@ -93,7 +93,7 @@ function animate(){
 		path.splice(path.indexOf(path[0]),1);
 	}
 	else{
-		textPrompt.html('Play yourself and let the AI solve again');
+		textPrompt.html('Rearrange the tiles and let the AI solve it again');
 	}
 }
 
