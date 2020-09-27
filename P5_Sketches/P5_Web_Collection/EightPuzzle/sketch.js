@@ -1,15 +1,15 @@
 let r;
 let path = [];
-// let board = [
-// 	["0", "5", "4"],
-//     ["1", "6", "2"],
-//     ["7", "3", "8"]
-// ];
 let board = [
-	["1", "0", "2"],
-    ["4", "5", "3"],
-    ["7", "8", "6"]
+	["0", "5", "4"],
+    ["1", "6", "2"],
+    ["7", "3", "8"]
 ];
+// let board = [
+// 	["1", "0", "2"],
+//     ["4", "5", "3"],
+//     ["7", "8", "6"]
+// ];
 let Goal = [
 	["1", "2", "3"],
     ["4", "5", "6"],
@@ -22,23 +22,29 @@ let actions = {
 	right: [ 1, 0]
 };
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	size = min(windowWidth, windowHeight);
+	r = size/3;
+	createCanvas(size, size);
 	background(0);
-	r = 100;
+	// r = 100;
 	textAlign(CENTER, CENTER);
 	rectMode(CENTER);
-	textSize(100);
+	textSize(r);
+	strokeWeight(5);
 	button = createButton('click me');
-	button.position(19, 19);
+	button.position(size, 0);
+	button.size(windowWidth-size, 100);
+	button.style('background-color', color(255,128,0));
+	button.style('font-size', '50px');
 	button.mousePressed(null);
 	// for(let[action, val] of Object.entries(actions)){
 	// 	console.log(action, val);
 	// }
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+// function windowResized() {
+//   resizeCanvas(windowWidth, windowHeight);
+// }
 
 function draw() {
 	fill(255);
