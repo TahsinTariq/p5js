@@ -1,4 +1,4 @@
-let r;
+let r, input, img;
 let path = [];
 let board = [
 	["0", "5", "4"],
@@ -25,6 +25,9 @@ function setup() {
 	rectMode(CENTER);
 	textSize(r);
 	strokeWeight(5);
+	// input = createFileInput(handleFile);
+ //  	input.position(0, 0);
+
 	textPrompt = createP("Press the button if you're stuck and let the AI solve it for you");
 	textPrompt.position(size + windowWidth* 5/100, 100);
 	textPrompt.style('color', color(255));
@@ -44,7 +47,7 @@ function setup() {
 	playButton = createButton('Click to Play');
 	playButton.position(0, 0);
 	playButton.size(windowWidth, windowHeight);
-	playButton.style('background-color', color(17, 122, 110));
+	playButton.style('background-color', color(17, 122, 110, 240));
 	playButton.style('color', color(255));
 	playButton.style('font-size', r/5 + 'px')
 	playButton.style('border', 'none');
@@ -54,6 +57,7 @@ function setup() {
 function StartonTouch(){
 	playButton.remove();
 }
+
 function animateTimeout(){
 	textPrompt.html('AI thinking ... ...');
 	setTimeout(find_solve, 1000);
