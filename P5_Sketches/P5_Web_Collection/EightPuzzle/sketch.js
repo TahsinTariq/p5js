@@ -16,6 +16,7 @@ let actions = {
 	left : [-1, 0],
 	right: [ 1, 0]
 };
+
 function setup() {
 	size = min(windowWidth, windowHeight);
 	r = size/3;
@@ -39,8 +40,20 @@ function setup() {
 	solveButton.style('border', 'none');
 	solveButton.style('border-radius', '20%');
 	solveButton.mousePressed(animateTimeout);
+
+	playButton = createButton('Click to Play');
+	playButton.position(0, 0);
+	playButton.size(windowWidth, windowHeight);
+	playButton.style('background-color', color(17, 122, 110));
+	playButton.style('color', color(255));
+	playButton.style('font-size', r/5 + 'px')
+	playButton.style('border', 'none');
+	playButton.mousePressed(StartonTouch);
 }
 
+function StartonTouch(){
+	playButton.remove();
+}
 function animateTimeout(){
 	textPrompt.html('AI thinking ... ...');
 	setTimeout(find_solve, 1000);
