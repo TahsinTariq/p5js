@@ -25,7 +25,8 @@ function setup() {
 	rectMode(CENTER);
 	textSize(r);
 	console.log(r);
-	strokeWeight(5);
+	strokeWeight(5)
+	background(0);
 	imagePrompt = createP("Choose an image if you don't like numbers");
 	imagePrompt.position(size + windowWidth* 5/100, r/6-r/12);
 	imagePrompt.style('color', color(255));
@@ -35,6 +36,7 @@ function setup() {
   	input.position(size + windowWidth* 5/100, 0);
 	input.style('border', 'none');
 	input.style('font-size', r/15 + 'px')
+	input.style('color', color(255));
 
 	textPrompt = createP("Press the button if you're stuck and let the AI solve it for you");
 	textPrompt.position(size + windowWidth* 5/100, 2*r/3);
