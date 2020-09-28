@@ -1,4 +1,4 @@
-let r, input, img;
+let r, input, img, ir;
 let path = [];
 let board = [
 	["0", "5", "4"],
@@ -24,19 +24,27 @@ function setup() {
 	textAlign(CENTER, CENTER);
 	rectMode(CENTER);
 	textSize(r);
+	console.log(r);
 	strokeWeight(5);
-	// input = createFileInput(handleFile);
- //  	input.position(0, 0);
+	imagePrompt = createP("Choose an image if you don't like numbers");
+	imagePrompt.position(size + windowWidth* 5/100, r/6-r/12);
+	imagePrompt.style('color', color(255));
+	imagePrompt.style('font-size', r/15 + 'px')
+	imagePrompt.style('border', 'none');
+	input = createFileInput(handleFile);
+  	input.position(size + windowWidth* 5/100, 0);
+	input.style('border', 'none');
+	input.style('font-size', r/15 + 'px')
 
 	textPrompt = createP("Press the button if you're stuck and let the AI solve it for you");
-	textPrompt.position(size + windowWidth* 5/100, 100);
+	textPrompt.position(size + windowWidth* 5/100, 2*r/3);
 	textPrompt.style('color', color(255));
 	textPrompt.style('font-size', r/5 + 'px')
 	textPrompt.style('border', 'none');
 
 	solveButton = createButton('Solve');
-	solveButton.position(size + windowWidth* 5/100, 0);
-	solveButton.size(windowWidth-size - windowWidth* 10/100, 100);
+	solveButton.position(size + windowWidth* 5/100, r/3);
+	solveButton.size(windowWidth-size - windowWidth* 10/100, r/3);
 	solveButton.style('background-color', color(48, 117, 38));
 	solveButton.style('color', color(255));
 	solveButton.style('font-size', r/5 + 'px')
@@ -52,6 +60,16 @@ function setup() {
 	playButton.style('font-size', r/5 + 'px')
 	playButton.style('border', 'none');
 	playButton.mousePressed(StartonTouch);
+}
+
+function handleFile(file) {
+  print(file);
+  if (file.type === 'image') {
+    img = createImg(file.data, '');
+    img.hide();
+  } else {
+    img = null;
+  }
 }
 
 function StartonTouch(){
@@ -82,8 +100,26 @@ function draw() {
 			}
 			rect(xpos, ypos, r,r);
 			fill(255);
-			if(board[j][i] != 0 ){
-				text(board[j][i], i*r+r/2, j*r+r/2);
+			b = board[j][i];
+			if(b != 0 ){
+				text(b, i*r+r/2, j*r+r/2);
+				if(img){
+					noStroke();
+					ir = min(img.width, img.height)/3;
+					bb = board[j][i]-1;
+					x = bb%3;
+					y = floor(bb/3);
+					if(img.width>img.height){
+					image(img,i*r, j*r, r, r , img.width/2-ir-ir/3 + x*ir, y*ir, ir, ir);
+					}
+					else{
+					image(img,i*r, j*r, r, r , x*ir,img.width/2-ir-ir/3 + y*ir, ir, ir);
+					}
+				}
+				else{
+					stroke(255);
+					strokeWeight(5);
+				}
 			}
 		}
 	}
