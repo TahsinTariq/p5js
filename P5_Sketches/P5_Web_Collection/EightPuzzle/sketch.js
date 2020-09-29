@@ -30,12 +30,12 @@ function setup() {
 	r = size/3;
 	createCanvas(size, size);
 
-	video = createCapture(VIDEO);
-	video.size(320, 240);
-	video.hide();
-	flippedVideo = ml5.flipImage(video)
-	classifyVideo();
-	videoButton = createButton('Open Camera');
+	// video = createCapture(VIDEO);
+	// video.size(320, 240);
+	// video.hide();
+	// flippedVideo = ml5.flipImage(video)
+	// classifyVideo();
+	videoButton = createButton('Start Camera');
 	videoButton.position(size + windowWidth* 10/100, 2*r/3);
 	videoButton.size(windowWidth-size - windowWidth* 20/100, r/3);
 	videoButton.style('background-color', color(91, 166, 41));
@@ -89,6 +89,13 @@ function setup() {
 }
 function ToggleVideo(){
 	booleanVid = !booleanVid;
+	if(!flippedVideo){
+		video = createCapture(VIDEO);
+		video.size(320, 240);
+		video.hide();
+		flippedVideo = ml5.flipImage(video)
+		classifyVideo();
+	}
 	if(booleanVid){
 		videoButton.html("Close Camera");
 		videoButton.style('background-color', color(158, 35, 35));
