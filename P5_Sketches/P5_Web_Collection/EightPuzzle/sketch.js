@@ -42,7 +42,7 @@ function setup() {
 	videoButton.style('color', color(255));
 	videoButton.style('font-size', r/10 + 'px')
 	videoButton.style('border', 'none');
-	videoButton.style('border-radius', '10%');
+	videoButton.style('border-radius', '10px');
 	videoButton.mousePressed(ToggleVideo);
 
 	textAlign(CENTER, CENTER);
@@ -75,7 +75,7 @@ function setup() {
 	solveButton.style('color', color(255));
 	solveButton.style('font-size', r/5 + 'px')
 	solveButton.style('border', 'none');
-	solveButton.style('border-radius', '20%');
+	solveButton.style('border-radius', '10px');
 	solveButton.mousePressed(animateTimeout);
 
 	playButton = createButton('Click to Play');
