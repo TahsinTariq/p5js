@@ -1,4 +1,4 @@
-let r, input, img, ir, flippedVideo, cooldown;
+let r, input, img, ir, flippedVideo, cooldown, zeroBoard;
 let classifier,video;
 let booleanVid = false;
 let imageModelURL = 'https://teachablemachine.withgoogle.com/models/rJtoXFU6m/model.json';
@@ -89,6 +89,15 @@ function setup() {
 }
 function ToggleVideo(){
 	booleanVid = !booleanVid;
+	if(booleanVid){
+		videoButton.html("Close Camera");
+		videoButton.style('background-color', color(158, 35, 35));
+
+	}
+	else{
+		videoButton.html("Open Camera");
+		videoButton.style('background-color', color(91, 166, 41));
+	}
 }
 function classifyVideo() {
   flippedVideo = ml5.flipImage(video)
@@ -167,10 +176,13 @@ function draw() {
 					strokeWeight(5);
 				}
 			}
+			else{
+				zeroBoard = [i, j]
+			}
 		}
 	}
 	if(flippedVideo && booleanVid){
-		image(flippedVideo, 0, 0, 160,120);
+		image(flippedVideo,  zeroBoard[0]*r,  zeroBoard[1]*r + r/2 - 0.5*r*120/160, r,r*120/160);
 		swapVideo();
 	}
 	cooldown +=1;
@@ -178,7 +190,7 @@ function draw() {
 }
 
 function swapVideo(){
-	if(cooldown%100 == 1 && path.length<=0){
+	if(cooldown%50 == 1 && path.length<=0){
 		console.log(label);
 		if(label == 'up'){
 			swap(actions.up);
