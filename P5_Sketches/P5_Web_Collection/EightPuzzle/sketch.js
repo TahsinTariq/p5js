@@ -1,4 +1,12 @@
-let r, input, img, ir;
+let r, input, img, ir, flippedVideo, cooldown;
+let classifier,video;
+let booleanVid = false;
+let imageModelURL = 'https://teachablemachine.withgoogle.com/models/rJtoXFU6m/model.json';
+let label = "";
+
+function preload() {
+  classifier = ml5.imageClassifier(imageModelURL);
+}
 let path = [];
 let board = [
 	["0", "5", "4"],
@@ -21,6 +29,22 @@ function setup() {
 	size = min(windowWidth, windowHeight);
 	r = size/3;
 	createCanvas(size, size);
+
+	video = createCapture(VIDEO);
+	video.size(320, 240);
+	video.hide();
+	flippedVideo = ml5.flipImage(video)
+	classifyVideo();
+	videoButton = createButton('Open Camera');
+	videoButton.position(size + windowWidth* 10/100, 2*r/3);
+	videoButton.size(windowWidth-size - windowWidth* 20/100, r/3);
+	videoButton.style('background-color', color(91, 166, 41));
+	videoButton.style('color', color(255));
+	videoButton.style('font-size', r/5 + 'px')
+	videoButton.style('border', 'none');
+	videoButton.style('border-radius', '10%');
+	videoButton.mousePressed(ToggleVideo);
+
 	textAlign(CENTER, CENTER);
 	rectMode(CENTER);
 	textSize(r);
@@ -63,6 +87,25 @@ function setup() {
 	playButton.style('border', 'none');
 	playButton.mousePressed(StartonTouch);
 }
+function ToggleVideo(){
+	booleanVid != booleanVid;
+}
+function classifyVideo() {
+  flippedVideo = ml5.flipImage(video)
+  classifier.classify(flippedVideo, gotResult);
+}
+
+function gotResult(error, results) {
+  // If there is an error
+  if (error) {
+    console.error(error);
+    return;
+  }
+  // The results are in an array ordered by confidence.
+  // console.log(results[0]);
+  label = results[0].label;
+  classifyVideo();
+}
 
 function handleFile(file) {
   print(file);
@@ -76,6 +119,7 @@ function handleFile(file) {
 
 function StartonTouch(){
 	playButton.remove();
+	cooldown =0;
 }
 
 function animateTimeout(){
@@ -123,6 +167,30 @@ function draw() {
 					strokeWeight(5);
 				}
 			}
+		}
+	}
+	if(flippedVideo && booleanVid){
+		image(flippedVideo, 0, 0, 160,120);
+		swapVideo();
+	}
+	cooldown +=1;
+	console.log(cooldown)
+}
+
+function swapVideo(){
+	if(cooldown%100 == 1 && path.length<=0){
+		console.log(label);
+		if(label == 'up'){
+			swap(actions.up);
+		}
+		if(label == 'down'){
+			swap(actions.down);
+		}
+		if(label == 'left'){
+			swap(actions.left);
+		}
+		if(label == 'right'){
+			swap(actions.right);
 		}
 	}
 }
