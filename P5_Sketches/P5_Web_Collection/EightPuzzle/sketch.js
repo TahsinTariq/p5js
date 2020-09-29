@@ -40,7 +40,7 @@ function setup() {
 	videoButton.size(windowWidth-size - windowWidth* 20/100, r/3);
 	videoButton.style('background-color', color(91, 166, 41));
 	videoButton.style('color', color(255));
-	videoButton.style('font-size', r/5 + 'px')
+	videoButton.style('font-size', r/10 + 'px')
 	videoButton.style('border', 'none');
 	videoButton.style('border-radius', '10%');
 	videoButton.mousePressed(ToggleVideo);
@@ -48,7 +48,7 @@ function setup() {
 	textAlign(CENTER, CENTER);
 	rectMode(CENTER);
 	textSize(r);
-	console.log(r);
+	// console.log(r);
 	strokeWeight(5)
 	background(0);
 	imagePrompt = createP("Choose an image if you don't like numbers");
@@ -63,7 +63,7 @@ function setup() {
 	input.style('color', color(255));
 
 	textPrompt = createP("Press the button if you're stuck and let the AI solve it for you");
-	textPrompt.position(size + windowWidth* 5/100, 2*r/3);
+	textPrompt.position(size + windowWidth* 5/100, 3*r/3);
 	textPrompt.style('color', color(255));
 	textPrompt.style('font-size', r/5 + 'px')
 	textPrompt.style('border', 'none');
@@ -88,7 +88,7 @@ function setup() {
 	playButton.mousePressed(StartonTouch);
 }
 function ToggleVideo(){
-	booleanVid != booleanVid;
+	booleanVid = !booleanVid;
 }
 function classifyVideo() {
   flippedVideo = ml5.flipImage(video)
@@ -174,7 +174,7 @@ function draw() {
 		swapVideo();
 	}
 	cooldown +=1;
-	console.log(cooldown)
+	// console.log(booleanVid)
 }
 
 function swapVideo(){
