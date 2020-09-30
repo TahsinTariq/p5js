@@ -1,61 +1,34 @@
-
-let classifier;
-// Model URL
-let imageModelURL = 'https://teachablemachine.withgoogle.com/models/rJtoXFU6m/model.json';
-
-// Video
-let video;
-let flippedVideo;
-// To store the classification
-let label = "";
-
-// Load the model first
-function preload() {
-  classifier = ml5.imageClassifier(imageModelURL);
+var a = new Heap();
+for(i of [5,2,7,1,10]){
+	a.push(i);
 }
-
 function setup() {
 	sizeX = 640;
 	sizeY = 480;
-  createCanvas(sizeX, sizeY);
-  // Create the video
-  video = createCapture(VIDEO);
-  video.size(sizeX, sizeY);
-  video.hide();
+  	createCanvas(sizeX, sizeY);
 
-  flippedVideo = ml5.flipImage(video)
-  // Start classifying
-  classifyVideo();
 }
 
 function draw() {
-  background(0);
-  // Draw the video
-  image(flippedVideo, 0, 0);
-
-  // Draw the label
-  fill(255);
-  textSize(26);
-  textAlign(CENTER);
-  text(label, width / 2, height/2);
+	background(0);
 }
 
-// Get a prediction for the current video frame
-function classifyVideo() {
-  flippedVideo = ml5.flipImage(video)
-  classifier.classify(flippedVideo, gotResult);
-}
+// from heapq import *
 
-// When we get a result
-function gotResult(error, results) {
-  // If there is an error
-  if (error) {
-    console.error(error);
-    return;
-  }
-  // The results are in an array ordered by confidence.
-  // console.log(results[0]);
-  label = results[0].label;
-  // Classifiy again!
-  classifyVideo();
-}
+// a = [5,2,7,1,10]
+// heappush(a, 6)
+// a = []
+// heappush(a, 5)
+// heappush(a, 2)
+// heappush(a, 7)
+// heappush(a, 1)
+// heappush(a, 10)
+// heappush(a, 6)
+
+// while a:
+//     print(heappop(a))
+
+
+// b = [1,2,3,4]
+// print(b)
+// print(b+1)

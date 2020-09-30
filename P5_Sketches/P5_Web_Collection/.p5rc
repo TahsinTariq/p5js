@@ -3,6 +3,7 @@
   "projects": [
     "VoronoiGeneration",
     "EightPuzzle",
-    "test"
+    "test",
+    "Gesture_recognition"
   ]
 }
