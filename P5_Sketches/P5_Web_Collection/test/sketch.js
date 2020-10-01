@@ -1,17 +1,22 @@
-var a = new Heap();
-for(i of [5,2,7,1,10]){
-	a.push(i);
-}
-function setup() {
-	sizeX = 640;
-	sizeY = 480;
-  	createCanvas(sizeX, sizeY);
+// var a = new Heap();
+// for(i of [5,2,7,1,10]){
+// 	a.push(i);
+// }
 
+let img = [];
+let slider;
+
+function setup() {
+	sizeX = 512;
+	sizeY = 512;
+  	createCanvas(sizeX, sizeY);
 }
 
 function draw() {
 	background(0);
 }
+
+
 
 // from heapq import *
 
