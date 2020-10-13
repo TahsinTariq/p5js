@@ -2,18 +2,28 @@
 // for(i of [5,2,7,1,10]){
 // 	a.push(i);
 // }
-
-let img = [];
-let slider;
+let l = []
 
 function setup() {
-	sizeX = 512;
-	sizeY = 512;
-  	createCanvas(sizeX, sizeY);
+  	createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-	background(0);
+	background(0)
+	l.sort(function(a,b){return a[0] - b[0];})
+	beginShape(TRIANGLE_STRIP)
+	stroke(255)
+	for( i of l){
+		vertex(i[0],i[1])
+		fill(255,0,0)
+		ellipse(i[0],i[1], 10,10)
+	}
+	endShape()
+
+}
+
+function mousePressed(){
+	l.push([mouseX, mouseY])
 }
 
 

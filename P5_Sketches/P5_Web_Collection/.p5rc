@@ -4,6 +4,7 @@
     "VoronoiGeneration",
     "EightPuzzle",
     "test",
-    "Gesture_recognition"
+    "Gesture_recognition",
+    "TerrainGeneration"
   ]
 }
