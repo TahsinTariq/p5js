@@ -5,6 +5,7 @@
     "EightPuzzle",
     "test",
     "Gesture_recognition",
-    "TerrainGeneration"
+    "TerrainGeneration",
+    "Delunay_triangulation"
   ]
 }

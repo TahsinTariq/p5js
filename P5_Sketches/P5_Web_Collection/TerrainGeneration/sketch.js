@@ -6,7 +6,7 @@ let row, col;
 function setup() {
 	createCanvas(windowWidth, windowHeight, WEBGL);
 	background(0);
-	// noLoop()
+	noLoop()
 	row = width*2
 	col = height
 	let xoff = 0;
