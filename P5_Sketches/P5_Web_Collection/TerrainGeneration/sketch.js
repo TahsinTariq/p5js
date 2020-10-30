@@ -1,64 +1,85 @@
-let gridRadius = 40
-let incrementRate = 0.1;
-let zoff = 0;
-let n = [];
-let row, col;
+// let gridRadius = 40
+// let incrementRate = 0.1;
+// let zoff = 0;
+// let n = [];
+// let row, col;
+
+let n, n2, pts, tri, set;
 function setup() {
-	createCanvas(windowWidth, windowHeight, WEBGL);
+	// createCanvas(windowWidth, windowHeight, WEBGL);
+	createCanvas(windowWidth, windowHeight);
 	background(0);
-	noLoop()
-	row = width*2
-	col = height
-	let xoff = 0;
-	for(let x =0; x< row; x+=gridRadius){
-		let yoff = 0;
-		n.push([]);
-		for(let y =0; y< col; y+=gridRadius){
-			yoff+=incrementRate;
-			n[n.length-1].push(noise(xoff, yoff, zoff));
-		}
-		xoff+=incrementRate;
-	}
+	// noLoop()
+// 	row = width*2
+// 	col = height
+// 	let xoff = 0;
+// 	for(let x =0; x< row; x+=gridRadius){
+// 		let yoff = 0;
+// 		n.push([]);
+// 		for(let y =0; y< col; y+=gridRadius){
+// 			yoff+=incrementRate;
+// 			n[n.length-1].push(noise(xoff, yoff, zoff));
+// 		}
+// 		xoff+=incrementRate;
+// 	}
+	generatePoints()
+	print(tri.length)
 }
 
-// function windowResized() {
-//   resizeCanvas(windowWidth, windowHeight);
-// }
-
 function draw() {
-	// console.log(n)
+	// console.log(frameRate())
 	background(0)
 	noFill();
 	stroke(255);
 	// strokeWeight(10)
 	// translate(width/2, height/2);
-	rotateX(PI/3);
-	translate(-width, -height/2)
-	// incrementRate = map(mouseX, 0, width,0.1, 0.5 );
-	// let xoff = 0;
-	for(let x =0; x<row; x++){
-		// let yoff = 0;
-		beginShape(TRIANGLE_STRIP)
-		for(let y =0; y< col; y++){
-			// yoff+=incrementRate;
-			// // let n = noise(xoff, yoff, zoff);
-			// let n = noise(sin(xoff), yoff, zoff);
+	translate(mouseX, mouseY);
 
-			// let fillColor = map(n, 0, 1, 0, 255);
-			// let r = map(n, 0, 1, -100, 100);
-			// fill(fillColor);
-			// for(let z =0; z< int(r); z+=1){
-				// push()
-				// translate(0,0,z*3)
-				// ellipse(x, y, r, r)
-				// vertex(x,y, r)
-				// vertex(x+gridRadius,y, r)
-				vertex(x*gridRadius,y*gridRadius, n[x][y])
-				vertex((x+1)*gridRadius,y*gridRadius, n[x][y])
-				// pop()
-			}
-		endShape();
-		// xoff+=incrementRate;
+	// rotateX(PI/3);
+
+	// rotateX(frameCount*0.1);
+	// translate(-width, -height/2)
+
+	// for(let i = 0;i<tri.length; i++){
+	// 		beginShape()
+	// 		for(let j = 0; j<tri[i].length; j++){
+	// 			vertex(tri[i][j][0], tri[i][j][1])
+	// 		}
+	// 		endShape(CLOSE)
+	// 	}
+	for(let i = 0;i<edge.length; i++){
+		line(edge[i][0][0], edge[i][0][1], edge[i][1][0], edge[i][1][1])
 	}
-	// zoff+=incrementRate;
 }
+
+function generatePoints(){
+	n = 0
+	n2 = 0
+	p = new PoissonDiskSampling({
+	    shape: [width, height],
+	    minDistance: 100,
+	    maxDistance: 20,
+	    tries: 10
+	});
+	pts = p.fill()
+
+	delunay = Delaunator.from(pts)
+	tri = []
+	edge = []
+	// set = new Set()
+	for(let i = 0; i< delunay.triangles.length/3; i++){
+		tri.push([	pts[delunay.triangles[3*i  ] ],
+					pts[delunay.triangles[3*i+1] ],
+					pts[delunay.triangles[3*i+2] ] ])
+		// set.add([])
+	}
+	for (let e = 0; e < delunay.triangles.length; e++) {
+        if (e > delunay.halfedges[e]) {
+            const p = pts[delunay.triangles[e]];
+            const q = pts[delunay.triangles[next_halfedge(e)]];
+            edge.push([p, q])
+        }
+    }
+
+}
+function next_halfedge(e) { return (e % 3 == 2) ? e-2 : e+1; }

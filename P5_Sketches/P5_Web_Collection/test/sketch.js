@@ -1,49 +1,45 @@
-// var a = new Heap();
-// for(i of [5,2,7,1,10]){
-// 	a.push(i);
+// let l = []
+
+// function setup() {
+//   	// createCanvas(windowWidth, windowHeight);
+//   	createCanvas(windowWidth, windowHeight, WEBGL);
+//   	background(0)
+// 	for(let i=0; i<500; i++){
+//   		l.push([random(width), random(height)])
+//   	}
+//   	// noLoop()
 // }
-let l = []
+
+// function draw() {
+// 	background(0)
+// 	translate(-width, -height)
+// 	translate(mouseX, mouseY)
+// 	beginShape()
+// 	for (i of l){
+// 		this.isImmediateDrawing = false
+// 		vertex(i[0], i[1])
+// 		// ellipse(i[0], i[1], 10, 10)
+// 	}
+// 	endShape(CLOSE)
+// }
+
 
 function setup() {
-  	createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight, WEBGL); // Adding WEBGL here *
+}
+function draw(){
+	translate(-width/2, -height/2)
+	translate(mouseX, mouseY)
+background(255);
+fill(200);
+for (var i = 0; i < 20; i++) {
+
+	beginShape();
+	vertex(-100, 100, 0);
+	vertex(100, 100, 0);
+	vertex(100, -100, 0);
+	vertex(-100, -100, 0);
+	endShape(CLOSE);
+}
 }
 
-function draw() {
-	background(0)
-	l.sort(function(a,b){return a[0] - b[0];})
-	beginShape(TRIANGLE_STRIP)
-	stroke(255)
-	for( i of l){
-		vertex(i[0],i[1])
-		fill(255,0,0)
-		ellipse(i[0],i[1], 10,10)
-	}
-	endShape()
-
-}
-
-function mousePressed(){
-	l.push([mouseX, mouseY])
-}
-
-
-
-// from heapq import *
-
-// a = [5,2,7,1,10]
-// heappush(a, 6)
-// a = []
-// heappush(a, 5)
-// heappush(a, 2)
-// heappush(a, 7)
-// heappush(a, 1)
-// heappush(a, 10)
-// heappush(a, 6)
-
-// while a:
-//     print(heappop(a))
-
-
-// b = [1,2,3,4]
-// print(b)
-// print(b+1)
