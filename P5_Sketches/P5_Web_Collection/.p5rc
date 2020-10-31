@@ -6,6 +6,7 @@
     "test",
     "Gesture_recognition",
     "TerrainGeneration",
-    "Delunay_triangulation"
+    "Delunay_triangulation",
+    "perlin_basic"
   ]
 }
