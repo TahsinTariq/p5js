@@ -8,6 +8,7 @@
     "TerrainGeneration",
     "Delunay_triangulation",
     "perlin_basic",
-    "phyllotaxis"
+    "phyllotaxis",
+    "plotter"
   ]
 }
