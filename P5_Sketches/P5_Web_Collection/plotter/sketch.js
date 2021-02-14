@@ -1,4 +1,4 @@
-// n =
+// const s = 10
 function setup() {
 	// createCanvas(640, 480);
 	createCanvas(windowWidth, windowHeight);
