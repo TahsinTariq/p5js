@@ -1,5 +1,5 @@
 var startTime;
-var target_minutes = 60;
+var target_minutes = 10;
 var target = minuteToFrame(target_minutes);
 function setup() {
 	// createCanvas(640, 480);
