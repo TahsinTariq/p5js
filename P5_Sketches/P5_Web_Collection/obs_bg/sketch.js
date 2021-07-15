@@ -1,12 +1,12 @@
 var startTime;
-var target_minutes = 1;
-
+var target_minutes = 60;
+var target = minuteToFrame(target_minutes);
 function setup() {
 	// createCanvas(640, 480);
 	createCanvas(windowWidth, windowHeight);
-	background(0);
+	// background(0);
 	frameRate(30);
-	startTime = performance.now();
+	// startTime = performance.now();
 	// get start time
 	// console.log(startTime);
 	colorMode(HSB, 360, 100, 100);
@@ -16,15 +16,14 @@ function windowResize() {
 }
 
 function draw() {
-	end = performance.now();
+	// end = performance.now();
 	c1 = color(0, 90, 90);
-	c2 = color(200, 85, 90);
-
-	time_passed = Math.round((end - startTime) / 1000)
-	console.log(`Time passed: ${time_passed} seconds`);
+	c2 = color(360, 85, 90);
+	// time_passed = Math.round((end - startTime) / 1000)
+	// console.log(`Time passed: ${time_passed} seconds`);
 	// console.log(target_minutes);
-	c = lerpColor(c1, c2, map(frameCount, 0, minuteToFrame(target_minutes), 0, 1));
-	console.log(`c: ${c}`);
+	c = lerpColor(c1, c2, map(frameCount % target, 0, target, 0, 1));
+	// console.log(`c: ${c}`);
 	background(c);
 }
 
